@@ -1,0 +1,79 @@
+/* Isn't visible until last question */
+.submit-hidden {
+    display: none;
+}
+
+/* Only one question visible at a time */
+.question {
+    display: none;
+}
+
+/* question visible + animation */
+.question.active {
+    display: block;
+    animation: fade 0.5s ease;
+}
+
+/* Previous, next and submit buttons aligned properly */
+.quiz-buttons {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Buttons are all the same width */
+.quiz-buttons .btn,
+.quiz-buttons input[type="submit"] {
+    min-width: 120px;
+}
+
+/* Next and submit are on the right */
+.right-buttons {
+    margin-left: auto;
+}
+
+/* Hides original option circle on quiz page */
+.question input[type="radio"] {
+    display: none;
+}
+
+/* Background of progress bar */
+#progressBox {
+    width: 100%;
+    height: 10px;
+    background: #d6e3e5;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border-radius: 999px;
+}
+
+/* Width changes in javascript */
+#progressBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #3f8f94, #5dd5e0);
+    border-radius: 999px;
+}
+
+/* Animation when changing question */
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question-field {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.radio-option span {
+    display: inline-block;
+    margin-left: 6px;
+}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}UnlockED | Server Error{% endblock %}
+
+{% block content %}
+<div class="page-card text-center">
+    <h1>500 - Server Error</h1>
+    <p>Something went wrong on our side. Please try again later.</p>
+    <a class="btn btn-primary" href="{{ url_for('main.home') }}">Return Home</a>
+</div>
+{% endblock %}

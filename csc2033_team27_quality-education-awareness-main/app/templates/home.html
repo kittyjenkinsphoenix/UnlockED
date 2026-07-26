@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %}UnlockED | Home{% endblock %}
+
+{% block content %}
+
+<div class="stats-page container">
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Every child deserves the chance to learn. We’re on a mission to make sure they get it.</h1>
+            <p>
+                Millions of children lack access to quality education.
+                Explore the data, understand the gaps, and take action to make a difference.
+            </p>
+            <a href="/take-action" class="btn btn-primary">Take Action</a>
+        </div>
+    </section>
+
+    <!-- INDICATORS -->
+    <section class="indicators-container">
+        <h2>Key Education Indicators</h2>
+        <p class="section-subtext">Click a card to learn more</p>
+
+        <div class="indicators-grid">
+
+            <div class="indicator-card" onclick="showInfo('literacy', this)">
+                <img src="{{ url_for('static', filename='images/book.jpg') }}" class="card-icon">
+                <p class="card-label">Adult Literacy Rate</p>
+                <p class="card-stat">86.3%</p>
+            </div>
+
+            <div class="indicator-card" onclick="showInfo('teachers', this)">
+                <img src="{{ url_for('static', filename='images/teacher.jpg') }}" class="card-icon">
+                <p class="card-label">Teacher Shortage</p>
+                <p class="card-stat">44M</p>
+            </div>
+
+            <div class="indicator-card" onclick="showInfo('secondary', this)">
+                <img src="{{ url_for('static', filename='images/hat.jpg') }}" class="card-icon">
+                <p class="card-label">Children Out of School</p>
+                <p class="card-stat">272M</p>
+            </div>
+
+            <div class="indicator-card" onclick="showInfo('funding', this)">
+                <img src="{{ url_for('static', filename='images/money.jpg') }}" class="card-icon">
+                <p class="card-label">Funding Gap Per Year</p>
+                <p class="card-stat">$97B</p>
+            </div>
+
+        </div>
+
+        <!-- DYNAMIC INFO BOX -->
+        <div id="statInfoBox" class="info-box">
+            Click on a card to explore more details about each indicator.
+        </div>
+    </section>
+
+    <!-- POSTER / QUOTE -->
+    <section class="poster-section page-card">
+        <div class="poster-layout">
+            <div class="poster-image-wrap">
+                <img src="{{ url_for('static', filename='images/educationposter.jpg') }}"
+                     alt="Wall mural reading: Education is the key to success"
+                     class="poster-img">
+            </div>
+            <div class="poster-text">
+                <blockquote class="poster-quote">"Education is the key to success."</blockquote>
+                <p>
+                    We see slogans about the power of education on school walls and street murals everywhere. But the reality is that for hundreds of millions of kids, that door is still firmly locked.
+                </p>
+                <p>
+                    UnlockED exists to close that gap. We raise awareness through data, highlight
+                    the regions most in need, and give everyone a way to take meaningful action.
+                </p>
+                {% if not current_user.is_authenticated %}
+                    <a href="/register" class="btn btn-primary">Join UnlockED</a>
+                {% else %}
+                    <a href="/quiz_dash" class="btn btn-primary">Test Your Knowledge</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- CHART + TEXT -->
+    <section class="chart-section page-card">
+        <div class="chart-layout">
+
+            <div class="chart-text">
+                <h2>Where Funding Goes</h2>
+                <p>
+                    Education spending is heavily concentrated in wealthier nations.
+                    Lower-income regions receive a much smaller share despite facing the
+                    greatest educational challenges.
+                </p>
+
+                <div id="infoBox" class="info-box">
+                    Hover over the chart to explore region-specific insights.
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="pieChart"></canvas>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const pieLabels = {{ labels | tojson | safe }};
+const pieValues = {{ values | tojson | safe }};
+const pieInfo = {{ info | tojson | safe }};
+
+let activeChartLabel = null;
+
+const chart = new Chart(
+    document.getElementById('pieChart'),
+    {
+        type: 'pie',
+        data: {
+            labels: pieLabels,
+            datasets: [{
+                data: pieValues,
+                backgroundColor: [
+                    '#3f8f94',
+                    '#5dd5e0',
+                    '#f6ad55',
+                    '#fc8181'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            },
+            onHover: (event, elements) => {
+                const box = document.getElementById("infoBox");
+                const label = elements.length ? pieLabels[elements[0].index] : null;
+                if (label === activeChartLabel) return;
+                activeChartLabel = label;
+                box.style.opacity = '0';
+                setTimeout(() => {
+                    box.innerText = label
+                        ? pieInfo[label]
+                        : "Hover over the chart to explore region-specific insights.";
+                    box.style.opacity = '1';
+                }, 250);
+            }
+        }
+    }
+);
+
+// CARD INTERACTION
+function showInfo(type, card) {
+    const info = {
+        literacy: "About 86.3% of adults worldwide can read and write, but literacy rates remain much lower in low-income regions, especially among women.",
+        teachers: "The world faces a shortage of around 44 million teachers, with the greatest need in regions experiencing rapid population growth.",
+        secondary: "Roughly 272 million children and youth are out of school globally, limiting access to education and future opportunities.",
+        funding: "There is an estimated $97 billion annual funding gap to achieve quality education for all, mainly affecting lower-income countries."
+    };
+
+    document.querySelectorAll('.indicator-card').forEach(c => c.classList.remove('highlight'));
+    card.classList.add('highlight');
+
+    const box = document.getElementById("statInfoBox");
+    box.style.opacity = '0';
+    setTimeout(() => {
+        box.innerText = info[type];
+        box.style.opacity = '1';
+    }, 250);
+}
+
+</script>
+
+{% endblock %}

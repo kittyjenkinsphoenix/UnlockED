@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="quiz-container">
+
+    <div class="page-card">
+        <h1>UnlockED Quality Education Quiz</h1>
+        <p>
+            The UnlockED quality education quiz tests your knowledge of the topics on this website.
+            Make sure you've had a look around before starting, so that you can get the best score possible
+            on your first try!
+        </p>
+    </div>
+
+    {% if first_score is not none %}
+    <div class="page-card">
+        <h2>Your Results</h2>
+        <h3>Score: {{ score }}</h3>
+
+        {% if score == 0 %}
+        <p>Too bad! You should definitely look around the website a bit more.</p>
+        {% elif score < 3 %}
+        <p>You did OK. You should look around the website more!</p>
+        {% elif score < 6 %}
+        <p>You did well! You clearly paid attention to the website!</p>
+        {% elif score == 6 %}
+        <p>You got full marks! Feel free to brag to your friends!</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="page-card">
+        <p>
+            Take the quiz using the link below, and we will show you how well you did
+            compared to other users.
+        </p>
+
+        <a href="{{ url_for('main.quiz') }}" class="btn btn-primary">
+            Take the Quiz
+        </a>
+    </div>
+
+</div>
+{% endblock %}

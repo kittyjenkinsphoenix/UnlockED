@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}User Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="user-dashboard">
+    <div class="introduction">
+        <h1>Welcome, {{ current_user.name }}</h1>
+        <p>Track your quiz progress, compare your results with other users, and explore ways to support quality education worldwide.</p>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="stat-item">
+            <h3>Your Bio</h3>
+            <p>{{ bio or 'No biography added yet.' }}</p>
+        </div>
+
+        <div class="stat-item">
+            <h3>Most Recent Score</h3>
+            <p>{{ user_score }}%</p>
+            <progress value="{{ user_score }}" max="100"></progress>
+        </div>
+
+        <div class="stat-item">
+            <h3>Highest Score</h3>
+            <p>{{ high_score }}%</p>
+            <progress value="{{ high_score }}" max="100"></progress>
+        </div>
+
+        <div class="stat-item">
+            <h3>Platform Average</h3>
+            <p>{{ avg_score }}%</p>
+            <progress value="{{ avg_score }}" max="100"></progress>
+        </div>
+
+        <div class="stat-item">
+            <h3>Quizzes Completed</h3>
+            <p>{{ quiz_count }}</p>
+            <p>Keep going to improve your score.</p>
+        </div>
+
+
+        <div class="stat-item">
+            <h3>Knowledge Rating</h3>
+
+            {% if high_score >= 6 %}
+                <p>🌍 Global Education Expert</p>
+                <p>Outstanding understanding of global education issues.</p>
+
+            {% elif quiz_count >= 5 %}
+                <p>📘 Education Advocate</p>
+                <p>Strong knowledge of education inequality.</p>
+
+            {% elif quiz_count >= 3 %}
+                <p>📚 Knowledge Builder</p>
+                <p>You have a solid foundation with room to improve.</p>
+
+            {% elif quiz_count >= 1 %}
+                <p>🎯 Beginner Learner</p>
+                <p>Keep exploring the website to improve your knowledge.</p>
+
+            {% else %}
+                <p>No Rating Yet</p>
+                <p>Complete the quiz to receive your knowledge rating.</p>
+            {% endif %}
+        </div>
+
+        {% if new_high_score %}
+            <div class="stat-item high-score-alert">
+                <h2>New High Score</h2>
+                <p>Nice one - your latest quiz result is your best so far.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="quiz-section">
+        <h2>Test Your Knowledge</h2>
+        <p>Challenge yourself with our interactive quiz based on real global education data.
+            Test your understanding of education inequality, literacy rates, and progress
+            towards Sustainable Development Goal 4.</p>
+        <a href="{{ url_for('main.quiz') }}">Start Quiz</a>
+    </div>
+
+    <div class="action-section">
+        <h2>Take Action</h2>
+        <p>Knowledge is the first step towards change. Find ways to support quality education,
+            advocate for policy change, or contribute to organisations working to reduce
+            education inequality worldwide.</p>
+        <a href="{{ url_for('main.take_action') }}">Get Involved</a>
+    </div>
+
+    <div class="recent-activity">
+        <h2>Recent Activity</h2>
+        {% if recent_results %}
+            <ul class="activity-list">
+                {% for result in recent_results %}
+                    <li class="activity-item">
+                        <span>{{ result.created_at.strftime('%Y-%m-%d') }}</span>
+                        <strong>{{ ((result.score / result.total_questions) * 100) | round(1) }}%</strong>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have not completed any quizzes yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="recommendation">
+        <h2>Recommended Next Step</h2>
+        <p>{{ recommendation }}</p>
+
+        {% if current_user.role == "admin" %}
+            <h2>Admin Tools</h2>
+            <p>You have administrator access. Use the admin area to manage users and platform content.</p>
+            <a href="{{ url_for('main.admin_dashboard') }}">Go to Admin Panel</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

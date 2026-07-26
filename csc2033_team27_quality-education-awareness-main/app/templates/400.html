@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}UnlockED | Bad Request{% endblock %}
+
+{% block content %}
+<div class="page-card text-center">
+    <h1>400 - Bad Request</h1>
+    <p>The request could not be understood by the server.</p>
+    <a class="btn btn-primary" href="{{ url_for('main.home') }}">Return Home</a>
+</div>
+{% endblock %}

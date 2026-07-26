@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <div class="page-card">
+        <h1>Login</h1>
+        <p class="page-subtext">Sign in to access your dashboard, quiz history, and saved progress.</p>
+
+        <form method="POST" action="" novalidate>
+        {{ form.hidden_tag() }}
+
+            <div class="mb-3">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control", autocomplete="email", placeholder="you@example.com") }}
+                {% for error in form.username.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control", autocomplete="current-password") }}
+                {% for error in form.password.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class="btn btn-primary mt-2") }}
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('main.forgot_password') }}">Forgot your password?</a>
+                </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

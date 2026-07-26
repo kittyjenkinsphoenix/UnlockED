@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+
+    <div class="page-card">
+        <h1>UnlockED Quality Education Quiz</h1>
+        <p class="page-subtext">
+            Test your knowledge of global education and see how well you understand the topic.
+        </p>
+    </div>
+
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div id="progressText" aria-live="polite">Question 1 of 6</div>
+        <div id="progressBox">
+            <div id="progressBar"></div>
+        </div>
+
+        <div class="question active">
+            <fieldset class="question-field">
+                {{ form.q1.label }}<br>
+                {% for option in form.q1 %}
+                <label class="radio-option">{{ option }} <span>{{ option.label.text }}</span></label><br>
+                {% endfor %}
+            </fieldset><br>
+        </div>
+
+        <div class="question">
+            <fieldset class="question-field">
+                {{ form.q2.label }}<br>
+                {% for option in form.q2 %}
+                <label class="radio-option">{{ option }} <span>{{ option.label.text }}</span></label><br>
+                {% endfor %}
+            </fieldset><br>
+        </div>
+
+        <div class="question">
+            <fieldset class="question-field">
+                {{ form.q3.label }}<br>
+                {% for option in form.q3 %}
+                <label class="radio-option">{{ option }} <span>{{ option.label.text }}</span></label><br>
+                {% endfor %}
+            </fieldset><br>
+        </div>
+
+        <div class="question">
+            <fieldset class="question-field">
+                {{ form.q4.label }}<br>
+                {% for option in form.q4 %}
+                <label class="radio-option">{{ option }} <span>{{ option.label.text }}</span></label><br>
+                {% endfor %}
+            </fieldset><br>
+        </div>
+
+        <div class="question">
+            <fieldset class="question-field">
+                {{ form.q5.label }}<br>
+                {% for option in form.q5 %}
+                <label class="radio-option">{{ option }} <span>{{ option.label.text }}</span></label><br>
+                {% endfor %}
+            </fieldset><br>
+        </div>
+
+        <div class="question">
+            <fieldset class="question-field">
+                {{ form.q6.label }}<br>
+                {% for option in form.q6 %}
+                <label class="radio-option">{{ option }} <span>{{ option.label.text }}</span></label><br>
+                {% endfor %}
+            </fieldset><br>
+        </div>
+
+        <div class="quiz-buttons">
+            <button type="button" id="prevButton" class="btn btn-primary">Previous</button>
+            <div class="right-buttons">
+                <button type="button" id="nextButton" class="btn btn-primary">Next</button>
+                {{ form.submit(class="submit-hidden") }}
+            </div>
+
+        </div>
+    </form>
+
+<script>
+    let currQuestion = 0;
+    const questions = document.querySelectorAll(".question");
+
+    const nextButton = document.getElementById("nextButton");
+    const prevButton = document.getElementById("prevButton");
+    const submitButton = document.querySelector(".submit-hidden");
+
+    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
+
+    function showProgress() {
+        const total = questions.length;
+        const current = currQuestion + 1;
+
+        const percent = (current/total) * 100;
+
+        progressBar.style.width = percent + "%";
+        progressText.innerText = `Question ${current} of ${total}`;
+    }
+
+    function showQuestion(index) {
+        questions.forEach(function(q, i) {
+            q.classList.toggle("active", i === index);
+        });
+
+        prevButton.style.display = index === 0 ? "none" : "inline-block";
+
+        if (index === questions.length - 1) {
+            nextButton.style.display = "none";
+            submitButton.style.display = "inline-block";
+        } else {
+            nextButton.style.display = "inline-block";
+            submitButton.style.display = "none";
+        }
+
+        showProgress();
+    }
+
+    nextButton.addEventListener("click", function() {
+        if (currQuestion < questions.length - 1) {
+            currQuestion++;
+            showQuestion(currQuestion);
+        }
+    });
+
+    prevButton.addEventListener("click", function() {
+        if (currQuestion > 0) {
+            currQuestion--;
+            showQuestion(currQuestion);
+        }
+    });
+
+    showQuestion(currQuestion)
+
+</script>
+
+
+
+{% endblock %}

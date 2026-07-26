@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="take-action-container">
+
+    <div class="page-card">
+        <h1>Take Action</h1>
+        <p class="take-action-intro">
+            Here you can find out how to take action and help us achieve our goal.
+        </p>
+        <p class="take-action-intro">
+            If you don't feel like signing up, you can still help! Feel free to read the rest of
+            this page to find out about taking action.
+        </p>
+    </div>
+
+    <form method="POST" novalidate class="page-card">
+        {{ form.hidden_tag() }}
+
+        <h2>Get Involved</h2>
+        <p>Enter your email here to sign up to our take action newsletter.</p>
+
+        <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", autocomplete="email", placeholder="you@example.com") }}
+            {% for error in form.email.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="form-check mb-3">
+            {{ form.check(class="form-check-input", id="takeActionCheck") }}
+            <label class="form-check-label" for="takeActionCheck">
+                I would like to receive emails about how to take action.
+            </label>
+            {% for error in form.check.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+
+<div class="page-card">
+    <h2>Check Our Calendar</h2>
+    <p>Have a look at our calendar for upcoming events you can attend to take action!</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
+
+    <div id="calendar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+
+                headerToolbar: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'today'
+                },
+
+                buttonText: {
+                    prev: '<',
+                    next: '>'
+                },
+
+                events: '/api/calendar'
+            });
+
+            calendar.render();
+        });
+    </script>
+
+</div><br>
+
+
+<div class="page-card">
+    <h2>What We Want to Achieve by 2030</h2>
+    <table>
+        <tr>
+            <td>
+                <h3>Ensure that all children</h3>
+                <p>
+                    complete free, equitable and quality primary and secondary education
+                    leading to relevant and effective learning outcomes, and have access
+                    to quality early childhood development, care and pre-primary education
+                </p>
+                <p>(Targets 4.1 & 4.2)</p>
+            </td>
+            <td>
+                <h3>Ensure equal access</h3>
+                <p>
+                    for all women and men to affordable and quality technical, vocational
+                    and tertiary education, including university
+                </p>
+                <p>(Target 4.3)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Substantially increase</h3>
+                <p>
+                    the number of youth and adults who have relevant skills, including
+                    technical and vocational skills, for employment, decent jobs and
+                    entrepreneurship
+                </p>
+                <p>(Target 4.4)</p>
+            </td>
+            <td>
+                <h3>Eliminate gender disparities</h3>
+                <p>
+                    in education and ensure equal access to all levels of education and
+                    vocational training for the vulnerable, including people with
+                    disabilities, indigenous people and children in vulnerable situations
+                </p>
+                <p>(Target 4.5)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Ensure as many people as possible</h3>
+                <p>
+                    including all youth, achieve literacy and numeracy
+                </p>
+                <p>(Target 4.6)</p>
+            </td>
+            <td>
+                <h3>Ensure that all learners</h3>
+                <p>
+                    acquire the knowledge and skills needed to promote sustainable development,
+                    including, human rights, gender equality, promotion of a culture of peace
+                    and non-violence, global citizenship and appreciation of cultural
+                    diversity and of culture's contribution to sustainable development
+                </p>
+                <p>(Target 4.7)</p>
+            </td>
+        </tr>
+    </table><br>
+</div>
+
+
+<div class="page-card">
+    <h2>How Your Support Makes a Difference</h2>
+    <p>
+        Awareness and advocacy are powerful tools for change. When you decide to stay
+        informed by us, you help to amplify the voices of those in need of change, so
+        that they can receive the quality education they deserve. Collective action,
+        no matter how small, can still create an impact. Every time you contribute
+        your attention, time and resources to our cause, we all move a step closer to
+        a future where every child has the opportunity to learn, grow and thrive.
+    </p>
+</div>
+
+</div>
+
+{% endblock %}

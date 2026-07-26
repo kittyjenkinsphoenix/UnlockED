@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}UnlockED | Not Found{% endblock %}
+
+{% block content %}
+<div class="page-card text-center">
+    <h1>404 - Page Not Found</h1>
+    <p>The page you’re looking for doesn’t exist.</p>
+    <a class="btn btn-primary" href="{{ url_for('main.home') }}">Return Home</a>
+</div>
+{% endblock %}

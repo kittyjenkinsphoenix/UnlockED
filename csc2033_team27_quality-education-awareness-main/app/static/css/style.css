@@ -1,0 +1,750 @@
+/* COLOUR VARIABLES */
+:root {
+    --color-primary: #3f8f94;         /* teal for primary actions */
+    --color-primary-hover: #357a7e;   /* darker teal for hover states */
+
+    --color-accent: #5dd5e0;          /* light cyan for highlights */
+    --color-accent-light: #d4f1f4;    /* soft cyan for light sections/cards */
+
+    --color-text: #2d3748;            /* main text colour */
+    --color-text-light: #718096;      /* secondary text colour */
+
+    --color-border: #e2e8f0;          /* light border colour */
+    --color-error: #dc2626;           /* error text colour */
+
+    --color-background: #ffffff;      /* card/input background */
+    --color-background-alt: #f7fafc;  /* page background */
+}
+
+/* === GLOBAL STYLES === */
+
+/* Applying basic styling to entire page */
+body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg, #f8fbfc 0%, #eef5f7 100%);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-content {
+    flex: 1;
+}
+
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 2000;
+    background: var(--color-primary);
+    color: #ffffff;
+    padding: 10px 14px;
+    border-radius: 0 0 10px 0;
+}
+
+.skip-link:focus {
+    left: 12px;
+    top: 12px;
+}
+
+/* Page-level headings get the brand colour; smaller headings stay dark */
+h1, h2 {
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+h3, h4 {
+    color: var(--color-text);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Paragraph styling */
+p{
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Pre-Rendered Text */
+pre{
+    background-color: var(--color-border);
+    border-radius: 5px;
+    border-color: #2d3748;
+    padding: 5px;
+}
+
+/* Secondary / helper text */
+small,
+.text-muted {
+    color: var(--color-text-light);
+}
+
+/* Main content spacing inside Bootstrap container */
+.container {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+td, th {
+  border: 1px solid var(--color-border);
+  padding: 5px;
+}
+/* === NAVBAR REWORK === */
+
+/* Main navbar bar */
+.navbar {
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    padding-top: 14px;
+    padding-bottom: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Make navbar use full screen width */
+.navbar .container {
+    max-width: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+/* Logo */
+.nav-logo-img {
+    height: 40px;   /* control size */
+    width: auto;
+    display: block;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Right side links */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: auto;
+}
+
+@media (max-width: 767px) {
+    .nav-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px 0;
+        margin-left: 0;
+    }
+
+    .navbar-toggler {
+        border-color: var(--color-primary);
+        margin-left: auto;
+    }
+}
+
+/* Links */
+.nav-right a {
+    font-size: 1.20rem;  
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.nav-right a:focus-visible,
+.quiz-section a:focus-visible,
+.action-section a:focus-visible,
+.recommendation a:focus-visible,
+.btn:focus-visible,
+form input:focus-visible,
+form textarea:focus-visible,
+form select:focus-visible {
+    outline: 3px solid rgba(63, 143, 148, 0.35);
+    outline-offset: 2px;
+}
+
+/* Hover */
+.nav-right a:hover {
+    color: var(--color-primary-hover);
+}
+
+/* === SHARED FORM STYLING === */
+
+/* Giving forms a clean card-like layout */
+form {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Limiting form width for readability on larger screens */
+form {
+    max-width: 850px;
+}
+
+/* Adding spacing under labels and inputs */
+form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Improving spacing and appearance of text inputs */
+.form-control,
+form input,
+form textarea,
+form select {
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+/* Cleaner focus state */
+.form-control:focus,
+form input:focus,
+form textarea:focus,
+form select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.15rem rgba(63, 143, 148, 0.2);
+}
+
+/* Help text / small notes under fields */
+small {
+    display: block;
+    margin-top: -8px;
+    margin-bottom: 14px;
+    color: var(--color-text-light);
+}
+
+/* Validation / error text */
+.text-danger {
+    color: var(--color-error);
+    font-size: 0.9rem;
+}
+
+/* Giving submit buttons a consistent feel */
+.btn-primary,
+.btn-success,
+form input[type="submit"],
+form button[type="submit"] {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover states for submit buttons */
+.btn-primary:hover,
+.btn-success:hover,
+form input[type="submit"]:hover,
+form button[type="submit"]:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+/* Alert message refinement */
+.alert {
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+/* === FORM LAYOUT WRAPPER === */
+
+/* Centres the forms on the page */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto; /* centre horizontally */
+}
+
+.flash-stack {
+    max-width: 760px;
+    margin: 0 auto 18px;
+}
+
+/* === PAGE CONTENT CARDS === */
+
+/* Reusable content card for pages */
+.page-card {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.page-card:hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Softer subtext styling for dashboard helper text */
+.page-subtext {
+    color: var(--color-text-light);
+    margin-bottom: 20px;
+}
+
+/* Highlight important user information such as bio blocks */
+.info-box {
+    background-color: var(--color-accent-light);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 12px;
+    margin-bottom: 20px;
+    transition: opacity 0.25s ease;
+}
+
+.empty-state {
+    border: 1px dashed var(--color-border);
+    border-radius: 12px;
+    padding: 18px;
+    background-color: #fbfdfe;
+    color: var(--color-text-light);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    background: #ffffff;
+}
+
+.table thead th {
+    background: var(--color-background-alt);
+    color: var(--color-text);
+}
+
+.badge {
+    font-weight: 600;
+}
+
+/* Better spacing for dashboard buttons */
+.action-row {
+    margin-top: 20px;
+}
+
+/* Overriding Bootstrap green button to match the colours */
+.btn-success {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-success:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
+.site-nav .nav-right a:hover,
+.site-nav .nav-right a:focus-visible {
+    color: var(--color-primary-hover);
+}
+
+@media (max-width: 767px) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+
+/* === QUIZ STYLING === */
+
+/* Wrapper for the entire quiz page */
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Each question block */
+.question {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+/* Question title */
+.question legend {
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+/* Options spacing */
+.question label {
+    display: block;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+/* Turns quiz options into cards */
+.radio-option {
+    border: 2px solid var(--color-border);
+    padding: 14px;
+    border-radius: 12px;
+    user-select: none
+}
+
+/* Cards have colour on hover */
+.radio-option:hover {
+    border-color: var(--color-primary);
+}
+
+/* Colour stays when selected */
+.radio-option:has(input[type="radio"]:checked) {
+    border-color: var(--color-primary);
+    background: var(--color-accent-light);
+}
+
+/* Add spacing between radio buttons */
+.question input[type="radio"] {
+    margin-right: 6px;
+}
+
+/* Submit button spacing */
+.quiz-submit {
+    margin-top: 20px;
+}
+
+/* === TAKE ACTION PAGE === */
+
+/* Keeping the page content at a comfortable reading width */
+.take-action-container {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+/* Main signup box */
+.take-action {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+/* Slightly softer text for supporting explanations */
+.take-action-intro {
+    color: var(--color-text-light);
+    margin-bottom: 18px;
+}
+
+/* Make checkbox lines easier to read */
+.take-action p {
+    margin-bottom: 12px;
+}
+
+/* Add spacing above the action button */
+.take-action .btn,
+.take-action input[type="submit"],
+.take-action button[type="submit"] {
+    margin-top: 10px;
+}
+
+/* Table fills space properly */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Makes table align properly */
+td {
+    width: 50%;
+    vertical-align: top;
+    padding: 14px;
+}
+
+/* === FINAL POLISHES === */
+
+/* Smooth hover for buttons */
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Adding depth to cards when hovering for feedback*/
+.page-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Making links match the colour scheme */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Improve spacing between sections for the whole site */
+.page-card + .page-card {
+    margin-top: 16px;
+}
+
+/* Better looking headings spacing */
+h1 {
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin-top: 10px;
+}
+
+
+.stats-page .indicators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.stats-page .indicator-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stats-page .card-icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.stats-page .indicator-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stats-page .indicator-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.card-label {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.card-stat {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.chart-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.chart-wrapper canvas {
+    max-width: 400px;
+}
+
+#infoBox {
+    flex: 1;
+    min-width: 220px;
+    font-size: 0.95rem;
+}
+
+.chart-container {
+    width: 350px;
+    max-width: 100%;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.chart-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.chart-text {
+    flex: 1;
+    min-width: 260px;
+}
+
+.chart-container {
+    flex-shrink: 0;
+}
+
+.section-header {
+    margin-bottom: 15px;
+}
+
+.section-subtext {
+    color: var(--color-text-light);
+    margin-top: -8px;
+}
+
+.indicator-card.highlight {
+    background: var(--color-accent-light);
+    border: 1px solid var(--color-primary);
+}
+
+.stats-page section {
+    margin-bottom: 35px;
+}
+
+@media (max-width: 768px) {
+    .chart-layout {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .chart-container {
+        width: 260px;
+    }
+}
+
+.hero {
+    background: linear-gradient(135deg, #3f8f94, #5dd5e0);
+    color: white;
+    padding: 60px 30px;
+    border-radius: 14px;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 2.6rem;
+    color: white;
+}
+
+.hero p {
+    color: rgba(255,255,255,0.9);
+}
+
+.indicator-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.indicator-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border: 1px solid var(--color-primary);
+}
+
+.stats-page section {
+    margin-bottom: 45px;
+}
+
+.section-subtext {
+    color: var(--color-text-light);
+    margin-bottom: 15px;
+}
+
+/* === POSTER / QUOTE SECTION === */
+
+.poster-layout {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    flex-wrap: wrap;
+}
+
+.poster-image-wrap {
+    flex: 0 0 420px;
+    max-width: 100%;
+}
+
+.poster-img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+    display: block;
+}
+
+.poster-text {
+    flex: 1;
+    min-width: 260px;
+}
+
+.poster-quote {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    border-left: 4px solid var(--color-accent);
+    padding-left: 20px;
+    margin: 0 0 24px 0;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .poster-image-wrap {
+        flex: none;
+        width: 100%;
+    }
+}
+
+/* === FOOTER === */
+
+.site-footer {
+    background-color: var(--color-background);
+    border-top: 1px solid var(--color-border);
+    padding: 20px 0;
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+}
+
+.footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+@media (max-width: 576px) {
+    .footer-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+}

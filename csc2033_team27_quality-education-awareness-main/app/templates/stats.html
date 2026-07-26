@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}UnlockED | Statistics{% endblock %}
+
+{% block content %}
+<div class="stats-page container">
+    <section class="page-card">
+        <h1>Global Education Statistics</h1>
+        <p class="page-subtext">Explore the figures that shape the Home page and quiz content.</p>
+    </section>
+
+    <section class="page-card">
+        <div class="chart-layout">
+            <div class="chart-container">
+                <canvas id="statsChart"></canvas>
+            </div>
+            <div class="chart-text">
+                <h2>Key insights</h2>
+                <div class="info-box" id="statsInfoBox">
+                    Select a segment to read more about the data point.
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const statsLabels = {{ labels | tojson | safe }};
+const statsValues = {{ values | tojson | safe }};
+const statsInfo = {{ info | tojson | safe }};
+
+new Chart(document.getElementById('statsChart'), {
+    type: 'pie',
+    data: {
+        labels: statsLabels,
+        datasets: [{
+            data: statsValues,
+            backgroundColor: ['#3f8f94', '#5dd5e0', '#f6ad55', '#fc8181'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        onHover: (event, elements) => {
+            const box = document.getElementById('statsInfoBox');
+            if (!elements.length) {
+                box.innerText = 'Select a segment to read more about the data point.';
+                return;
+            }
+            const label = statsLabels[elements[0].index];
+            box.innerText = statsInfo[label];
+        }
+    }
+});
+</script>
+{% endblock %}

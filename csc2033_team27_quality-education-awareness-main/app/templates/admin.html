@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-card">
+    <h1>Welcome, {{ current_user.username }}!</h1>
+    <p class="page-subtext">Here you can review log files and user activity.</p>
+</div>
+
+<div class="page-card">
+    <h2>Log Files</h2>
+    {% if logs|length > 0 %}
+    <label for="logSelect" class="form-label">Select a log file to view:</label>
+    <select name="log" id="logSelect" class="form-select">
+        <option value="" selected>-- Select a file --</option>
+        {% for log in logs %}
+        <option value="{{ loop.index0 }}">{{ log | string }}</option>
+        {% endfor %}
+    </select>
+    <pre id="fileView" class="mt-3">-- No file loaded --</pre>
+    {% else %}
+    <div class="empty-state">
+        <p>Log files are not available yet.</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="page-card">
+    <h2>User Table</h2>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Quiz Score</th>
+                    <th>High Score</th>
+                    <th>First Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.name }}</td>
+                    <td><span class="badge text-bg-secondary">{{ user.role }}</span></td>
+                    <td>{{ user.quiz_score }}</td>
+                    <td>{{ user.high_score }}</td>
+                    <td>{{ user.first_score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var contents = {{ contents | tojson }};
+    var logSelect = document.getElementById("logSelect");
+    var fileView = document.getElementById("fileView");
+
+    if (logSelect) {
+        logSelect.addEventListener('change', function() {
+            var index = logSelect.value;
+            if (index !== "") {
+                var selected = contents[index];
+                fileView.textContent = JSON.stringify(selected, null, 2);
+            } else {
+                fileView.textContent = "-- No file loaded --";
+            }
+        });
+    }
+</script>
+
+{% endblock %}

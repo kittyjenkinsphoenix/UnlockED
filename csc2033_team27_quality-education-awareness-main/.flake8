@@ -1,0 +1,26 @@
+[flake8]
+max-line-length = 120
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    .venv,
+    instance,
+    migrations,
+    htmlcov,
+    docs
+# Cosmetic/style rules suppressed to focus on real bugs:
+# E261/E262 inline comment spacing, E265 block comment format,
+# E301/E302/E303/E305 blank line counts, E251 keyword equals spacing,
+# W291/W292/W293/W391 trailing whitespace, W503 line break before operator
+ignore = E261,E262,E265,E301,E302,E303,E305,E251,E231,E402,W291,W292,W293,W391,W503
+per-file-ignores =
+    # Long security header strings and logging format strings
+    app/__init__.py: E501
+    app/routes.py: E501
+    # Long validator chains are unavoidable in WTForms
+    app/forms.py: E501
+    # Long column definitions in models
+    app/models.py: E501
+    # Long test description comments
+    tests/*.py: E501
